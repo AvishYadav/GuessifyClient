@@ -1,0 +1,104 @@
+import bcrypt from 'bcryptjs';
+// import '../firebase-config'
+// import React from 'react';
+import { db } from "../firebase-config.js";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  and,
+  query, 
+  where,
+} from "firebase/firestore";
+// import firebase from 'firebase/app';
+
+import firebase from 'firebase/compat/app';
+import 'firebase/firestore';
+
+// Initialize Firebase app
+// const firebaseConfig = {
+//   // Your Firebase configuration object
+//   apiKey: "AIzaSyDvZxCAaecgKHWSCoGwrnTKTI8H08uq1V0",
+//   authDomain: "sockettest-7dc33.firebaseapp.com",
+//   projectId: "sockettest-7dc33",
+//   storageBucket: "sockettest-7dc33.appspot.com",
+//   messagingSenderId: "545103748133",
+//   appId: "1:545103748133:web:8daef7e8f88253311b73cc",
+//   measurementId: "G-ZZNT4X1MDC"
+// };
+// firebase.initializeApp(firebaseConfig);
+
+// Create a reference to the Firestore collection
+// const userlistCollectionRef = firebase.firestore().collection('users');
+
+
+// const bcrypt = require('bcryptjs');
+
+let email= 'Avish';
+let password = 'abc'
+
+
+const userlistCollectionRef = collection(db, "users");
+
+const verifyPassword = async (email, password) => {
+    try {
+    //   const snapshot = await firebase.firestore().collection('users').where('email', '==', email).get();
+    const snapshot =  query(userlistCollectionRef, where("username", "==", email));
+    if (snapshot.size > 0) {
+        const user = snapshot.docs[0].data();
+        bcrypt.compare(password, user.password, (err, result) => {
+            if (err) {
+              // Handle error
+              console.log(err);
+            }
+            
+            if (result) {
+              // Passwords match
+              console.log('Passwords match');
+            } else {
+              // Passwords don't match
+              console.log('Passwords dont match');
+            }
+          });
+        // if (user.password === password) {
+        //   // Password is valid
+        //   console.log('Password is valid');
+        // } else {
+        //   // Password is invalid
+        //   console.log('Password is invalid');
+        // }
+      } else {
+        // User not found
+        console.log('User not found');
+      }
+    } catch (error) {
+      // Handle error
+      console.log('Error:', error);
+    }
+  };
+
+//   const handlePasswordVerification = (email, password) => {
+    verifyPassword(email, password);
+//   };
+
+
+
+
+// let plainText = 'myPassword123';
+// let enteredPassword = 'myPassword123';
+// let storedHashedPassword = '';
+
+// bcrypt.hash(plainText, 10, (error, hash) => {
+//   if (error) {
+//     console.error(error);
+//     return;
+//   }
+// //   storedHashedPassword = hash.toString();
+//   console.log('Hashed value:', hash);
+// });
+
+// const hashedPassword = bcrypt.hashSync(plainText,10);
+
+
