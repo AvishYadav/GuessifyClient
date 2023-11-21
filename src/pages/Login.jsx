@@ -21,7 +21,7 @@ const Login = () => {
   
     const userLogin = async (e) => {
         e.preventDefault();
-        if ( email!="" && password!=""){
+        if ( email!=="" && password!==""){
           const q = query(userlistCollectionRef, where("email", "==", email));
           const qdocs = await getDocs(q);
           const userDoc = qdocs.docs[0];

@@ -23,7 +23,7 @@ const Signup = () => {
 
     const createUser = async (e) => {
         e.preventDefault();
-        if (newUsername!="" && newEmail!="" && newPassword!=""){
+        if (newUsername!=="" && newEmail!=="" && newPassword!==""){
           const saltRounds = 10; // Number of salt rounds for hashing
           const password = newPassword
           
