@@ -5,6 +5,10 @@ import Home from "./pages/Home";
 import "./App.css";
 import { io } from "socket.io-client";
 import Test from "./pages/Test";
+import {Routes, Route} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import GameRoom from "./pages/GameRoom";
+import { ContextProvider } from "./Context";
 
 // const socket = io("http://localhost:3001")
 
@@ -27,12 +31,14 @@ function App() {
   // }, []);
 
   return (
+    // <ContextProvider></ContextProvider>
     <div className="App">
       <header className="App-header">
-        {/* <Signup />
-        <Login /> */}
-        <Home />
-        {/* <Test /> */}
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="gameroom" element={<GameRoom/>}/>
+          <Route path="test" element={<Test/>}/>
+        </Routes>
       </header>
     </div>
   );

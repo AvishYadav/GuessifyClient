@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { io } from "socket.io-client";
 import { db } from "../firebase-config";
 import {
   collection,
@@ -12,31 +11,26 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import { useRoom, useRoomUpdate } from "../Context";
+import { useSelector, useDispatch } from 'react-redux'
+// import { addRoomValue, removeRoomValue } from '../Components/RoomValueSlice'
+import { setRoom } from "../actions";
 
-const socket = io("http://localhost:3001");
 
 const Home = () => {
   const [inputMsg, setInputMsg] = useState("");
   const [inputRoom, setInputRoom] = useState("");
   const [username, setUsername] = useState("");
   const [msgs, setMsgs] = useState([]);
-
-  // function addMessage(message) {
-  //     setMsgs((t) => [...t, message]);
-  // }
-
-  // function sendMsg(message, room) {
-  //     if (message === "") return;
-  //     addMessage(message);
-  //     socket.emit("send-message", message, room);
-
-  //     setInputMsg("");
-  // }
-  function submitUser(user) {}
-
-  const collectionRef = collection(db, "rooms");
+  const navigate = useNavigate();
+  // const inputRoom = useRoom();
+  // const roomUpdate = useRoomUpdate(Room);
+  const roomValue = useSelector((state) => state.changeRoom)
+  const dispatch = useDispatch()
 
   const createRoom = async (e) => {
+    // roomUpdate(Room);
     if (username !== "" && inputRoom !== "") {
       console.log("true");
       await setDoc(doc(db, "rooms", inputRoom), { id: inputRoom });
@@ -46,34 +40,38 @@ const Home = () => {
       await addDoc(roomRef, {
         username: username,
       });
+      navigate("/gameroom");
     } else {
       alert("Please enter a username and Room name properly");
     }
   };
 
   const joinRoom = async (e) => {
-    // socket.emit("join-room", room, () => {
-    // //   addMessage(`You connected to room: ${room}`);
-    // });
-    // sendData();
     const roomRef = collection(db, "rooms");
     const q = query(roomRef, where("id", "==", inputRoom));
     const qdocs = await getDocs(q);
     const roomDoc = qdocs.docs[0];
-    console.log(roomDoc);
     const roomData = roomDoc.data();
     const roomid = roomData.id;
 
     if (username !== "" && inputRoom !== "" && roomid !== undefined && roomid !== null) {
-      console.log(roomid);
+      // dispatch(addRoomValue(inputRoom))
+      dispatch({
+        type: "SETROOM",
+        payLoad: inputRoom
+      })
+      console.log("redux"+roomValue);
+      // console.log(roomid);
       const roomRef = collection(db, "rooms", inputRoom, inputRoom);
 
       await addDoc(roomRef, {
         username: username,
       });
+      navigate("/gameroom");
     } else {
       alert("Enter valid entries");
     }
+    
     setInputRoom("");
   };
 
