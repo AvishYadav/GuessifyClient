@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 
 const PlayerList = () => {
-  const [inputRoom, setInputRoom] = useState("1234");
+  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
   const [playerList, setPlayerList] = useState([]);
 
   

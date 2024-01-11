@@ -40,6 +40,7 @@ const Home = () => {
       await addDoc(roomRef, {
         username: username,
       });
+      sessionStorage.setItem("room", inputRoom);
       navigate("/gameroom");
     } else {
       alert("Please enter a username and Room name properly");
@@ -67,6 +68,7 @@ const Home = () => {
       await addDoc(roomRef, {
         username: username,
       });
+      sessionStorage.setItem("room", inputRoom);
       navigate("/gameroom");
     } else {
       alert("Enter valid entries");

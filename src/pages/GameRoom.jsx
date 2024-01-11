@@ -8,7 +8,7 @@ import PlayerList from "../Components/PlayerList";
 
 const GameRoom = () => {
   const [inputMsg, setInputMsg] = useState("");
-  const [inputRoom, setInputRoom] = useState("1234");
+  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
   const [msgs, setMsgs] = useState([]);
 
   function addMessage(message) {
@@ -52,7 +52,7 @@ const GameRoom = () => {
 
   return (
     <>
-      <h1>Game Room</h1>
+      <h1>Game Room : {inputRoom}</h1>
       <div style={{ width: "100%", display: "flex", flexWrap: "wrap" }}>
         <div
           className="player-list"
