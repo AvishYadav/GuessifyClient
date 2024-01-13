@@ -5,52 +5,52 @@ export const Data = [
          {
              id:1,
              name:'Rob Lucci',
-             img:'../../assets/CharImg/LucciImg.png'
+             img:'/assets/CharImg/LucciImg.png'
          },
          {
              id:2,
              name:'Momonosuke',
-             img:'../../assets/CharImg/MomonosukeImg.jpg'
+             img:'/assets/CharImg/MomonosukeImg.jpg'
          },
          {
              id:3,
              name:'Pedro',
-             img:'../../assets/CharImg/PedroImg.jpeg'
+             img:'/assets/CharImg/PedroImg.jpeg'
          },
          {
              id:4,
              name:'Corazon',
-             img:'../../assets/CharImg/CorazonImg.png'
+             img:'/assets/CharImg/CorazonImg.png'
          },
          {
              id:5,
              name:'Dadan',
-             img:'../../assets/CharImg/DadanImg.png'
+             img:'/assets/CharImg/DadanImg.png'
          },
          {
              id:6,
              name:'Gang Bege',
-             img:'../../assets/CharImg/BegeImg.jpg'
+             img:'/assets/CharImg/BegeImg.jpg'
          },
          {
              id:7,
              name:'Marco',
-             img:'../../assets/CharImg/MarcoImg.jpeg'
+             img:'/assets/CharImg/MarcoImg.jpeg'
          },
          {
              id:8,
              name:'Magellan',
-             img:'../../assets/CharImg/MagellanImg.jpeg'
+             img:'/assets/CharImg/MagellanImg.jpeg'
          },
          {
              id:9,
              name:'Dr.Kureha',
-             img:'../../assets/CharImg/KurehaImg.jpeg'
+             img:'/assets/CharImg/KurehaImg.jpeg'
          },
          {
              id:10,
              name:'Cavendish',
-             img:'../../assets/CharImg/CavendishImg.png'
+             img:'/assets/CharImg/CavendishImg.png'
          },
          ]
     },

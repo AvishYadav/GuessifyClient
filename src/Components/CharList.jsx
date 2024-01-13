@@ -8,7 +8,7 @@ const CharList = () => {
 
     const clickHandler = (cat) => {
         setCategory(cat);
-        setChardata(Data[cat]);
+        setChardata(Data[cat].charData);
         console.log(category)
         console.log(Chardata)
     }
@@ -17,11 +17,13 @@ const CharList = () => {
         <button onClick={()=>{clickHandler(0)}}>One Piece</button>
         <button onClick={()=>{clickHandler(1)}}>Football</button>
         <p>{category}</p>
-        {/* <div>
-        {Chardata.map((obj, i)=> {
-            return <CharCard id={obj.id} title={obj.name} mainImg={obj.img} key={i} />;
+        {Chardata?<div>
+        {Chardata.map((obj)=> {
+            return <CharCard id={obj.id} title={obj.name} mainImg={obj.img} key={obj.id} />;
             })}
-        </div> */}
+        </div>:
+       < div></div>}
+
     </div>
   )
 }
