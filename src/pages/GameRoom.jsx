@@ -3,12 +3,18 @@ import { io } from "socket.io-client";
 import { socket } from '../socket';
 import MessageBox from "../Components/MessageBox";
 import PlayerList from "../Components/PlayerList";
+import  CountdownTimer  from "../Components/CountDownTimer";
 
 // const socket = io("http://localhost:3001");
 
 const GameRoom = () => {
   const [inputMsg, setInputMsg] = useState("");
   const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
+  const TWO_MIN_IN_MS = 2 * 60 * 1000;
+  const NOW_IN_MS = new Date().getTime();
+
+  const dateTimeAfterTwoMins = NOW_IN_MS + TWO_MIN_IN_MS;
+  
   const [msgs, setMsgs] = useState([]);
 
   function addMessage(message) {
@@ -102,7 +108,7 @@ const GameRoom = () => {
             flex: "20%",
           }}
         >
-          something
+          <CountdownTimer targetDate={dateTimeAfterTwoMins} />
         </div>
       </div>
     </>
