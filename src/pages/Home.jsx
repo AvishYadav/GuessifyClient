@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../firebase-config";
 import {
   collection,
+  getDoc,
   getDocs,
   addDoc,
   deleteDoc,
@@ -12,17 +13,17 @@ import {
   where,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { useRoom, useRoomUpdate } from "../Context";
+// import { useRoom, useRoomUpdate } from "../Context";
 import { useSelector, useDispatch } from 'react-redux'
 // import { addRoomValue, removeRoomValue } from '../Components/RoomValueSlice'
-import { setRoom } from "../actions";
+// import { setRoom } from "../actions";
 
 
 const Home = () => {
-  const [inputMsg, setInputMsg] = useState("");
+  // const [inputMsg, setInputMsg] = useState("");
   const [inputRoom, setInputRoom] = useState("");
   const [username, setUsername] = useState("");
-  const [msgs, setMsgs] = useState([]);
+  // const [msgs, setMsgs] = useState([]);
   const navigate = useNavigate();
   // const inputRoom = useRoom();
   // const roomUpdate = useRoomUpdate(Room);
@@ -33,14 +34,26 @@ const Home = () => {
     // roomUpdate(Room);
     if (username !== "" && inputRoom !== "") {
       console.log("true");
+      const roomDocRef = await getDoc(query(doc(db, "rooms", inputRoom)))
+      if (roomDocRef.exists()){
+        alert("exists");
+        return
+      }
+      else{
+        alert("not found");
+      }
       await setDoc(doc(db, "rooms", inputRoom), { id: inputRoom });
 
       const roomRef = collection(db, "rooms", inputRoom, inputRoom);
 
-      await addDoc(roomRef, {
-        username: username,
+      // await addDoc(roomRef, {
+      //   username: username,
+      // });
+      await setDoc(doc(roomRef, username), {
+        username: username
       });
       sessionStorage.setItem("room", inputRoom);
+      sessionStorage.setItem("username", username);
       navigate("/gameroom");
     } else {
       alert("Please enter a username and Room name properly");
@@ -65,10 +78,19 @@ const Home = () => {
       // console.log(roomid);
       const roomRef = collection(db, "rooms", inputRoom, inputRoom);
 
-      await addDoc(roomRef, {
-        username: username,
+      const roomDocRef = await getDoc(query(doc(db, "rooms", inputRoom, inputRoom, username)))
+      if (roomDocRef.exists()){
+        alert("exists");
+        return
+      }
+      else{
+        alert("not found");
+      }
+      await setDoc(doc(roomRef, username), {
+        username: username
       });
       sessionStorage.setItem("room", inputRoom);
+      sessionStorage.setItem("username", username);
       navigate("/gameroom");
     } else {
       alert("Enter valid entries");
