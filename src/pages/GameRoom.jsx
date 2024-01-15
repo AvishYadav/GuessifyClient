@@ -2,8 +2,20 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { socket } from '../socket';
 import MessageBox from "../Components/MessageBox";
+import { db } from "../firebase-config";
 import PlayerList from "../Components/PlayerList";
 import  CountdownTimer  from "../Components/CountDownTimer";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  setDoc,
+  doc,
+  and,
+  query,
+  where,
+} from "firebase/firestore";
 
 // const socket = io("http://localhost:3001");
 
@@ -16,6 +28,8 @@ const GameRoom = () => {
   const dateTimeAfterTwoMins = NOW_IN_MS + TWO_MIN_IN_MS;
   
   const [msgs, setMsgs] = useState([]);
+  const [userName, setUserName] = useState(sessionStorage.getItem("username"));
+  const [playerList, setPlayerList] = useState([]);
 
   function addMessage(message) {
     setMsgs((t) => [...t, message]);
@@ -36,10 +50,19 @@ const GameRoom = () => {
   }
 
   useEffect(() => {
+    const getPlayerList = async (e) => {
+      const roomRef = collection(db, "rooms", inputRoom, inputRoom);
+      const q = query(roomRef);
+      const qdocs = await getDocs(q);
+      const plist = qdocs.docs.map(doc => doc.data());
+      setPlayerList(plist);
+    }
     // console.log("hi");
     socket.connect();
     if(inputRoom!==""){
       joinRoom(inputRoom);
+      getPlayerList()
+        .catch(console.error);
     }
     socket.on("connect", () => {
       //Reciveing messages from server
@@ -48,10 +71,21 @@ const GameRoom = () => {
       socket.on("recieve-message", (message) => {
         addMessage(message);
       });
+      socket.on("player-joined", (message) => {
+        getPlayerList()
+        .catch(console.error);
+      });
     });
-
     return () => {
       // remove event listner
+      console.log("return")
+      // const delPlayer = async (e) => {
+      //   const playerRef = doc(db, "rooms", inputRoom, inputRoom, userName);
+      //   const q = query(playerRef)
+      //   await deleteDoc(q);
+      //   // console.log(qdocs.docs.map(doc => doc.data()));
+      // }
+      // delPlayer();
       socket.off("connect");
     };
   }, []);
@@ -70,7 +104,7 @@ const GameRoom = () => {
             flex: "20%",
           }}
         >
-          <PlayerList />
+          <PlayerList playerList={playerList}/>
         </div>
         <div
           className="chat-box"
