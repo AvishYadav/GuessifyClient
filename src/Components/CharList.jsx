@@ -13,11 +13,11 @@ const CharList = () => {
         console.log(Chardata)
     }
   return (
-    <div>
+    <div className='charList'>
         <button onClick={()=>{clickHandler(0)}}>One Piece</button>
         <button onClick={()=>{clickHandler(1)}}>Football</button>
         <p>{category}</p>
-        {Chardata?<div>
+        {Chardata?<div className='charCardList'>
         {Chardata.map((obj)=> {
             return <CharCard id={obj.id} title={obj.name} mainImg={obj.img} key={obj.id} />;
             })}
