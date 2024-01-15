@@ -49,6 +49,8 @@ const GameRoom = () => {
     });
   }
 
+  
+
   useEffect(() => {
     const getPlayerList = async (e) => {
       const roomRef = collection(db, "rooms", inputRoom, inputRoom);
@@ -57,7 +59,6 @@ const GameRoom = () => {
       const plist = qdocs.docs.map(doc => doc.data());
       setPlayerList(plist);
     }
-    // console.log("hi");
     socket.connect();
     if(inputRoom!==""){
       joinRoom(inputRoom);
@@ -76,20 +77,25 @@ const GameRoom = () => {
         .catch(console.error);
       });
     });
+    window.addEventListener('beforeunload', delPlayer)
+    window.addEventListener('hashchange', delPlayer)
+    // window.addEventListener('unload', handleEndConcert)
     return () => {
       // remove event listner
-      console.log("return")
-      // const delPlayer = async (e) => {
-      //   const playerRef = doc(db, "rooms", inputRoom, inputRoom, userName);
-      //   const q = query(playerRef)
-      //   await deleteDoc(q);
-      //   // console.log(qdocs.docs.map(doc => doc.data()));
-      // }
-      // delPlayer();
+      window.removeEventListener('beforeunload', delPlayer)
+      window.removeEventListener('hashchange', delPlayer)
+      // window.removeEventListener('unload', handleEndConcert)
+      // handleEndConcert()
+      console.log('Component is unmounting');
+      
       socket.off("connect");
     };
   }, []);
-
+  const delPlayer = async (e) => {
+    const playerRef = doc(db, "rooms", inputRoom, inputRoom, userName);
+    const q = query(playerRef)
+    await deleteDoc(q);
+  }
   return (
     <>
       <h1>Game Room : {inputRoom}</h1>
