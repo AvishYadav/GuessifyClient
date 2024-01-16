@@ -1,9 +1,24 @@
 import React from 'react';
+import {useState} from 'react'
 import DateTimeDisplay from './DateTimeDisplay';
 import { useCountdown } from '../hooks/useCountDown';
 import  CharList  from "../Components/CharList";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  setDoc,
+  doc,
+  and,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../firebase-config";
+
 
 const ExpiredNotice = () => {
+
   return (
     <div className="expired-notice">
       <span>Expired!!!</span>
@@ -13,6 +28,15 @@ const ExpiredNotice = () => {
 };
 
 const ShowCounter = ({ minutes, seconds }) => {
+
+  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
+  const [userName, setUserName] = useState(sessionStorage.getItem("username"));
+
+
+  const setChar = async (charName) => {
+    await setDoc(doc(db, "rooms", inputRoom,inputRoom,userName), { selectedChar : charName });
+  }
+
   return (
     <div className="show-counter">
       <a
@@ -27,7 +51,7 @@ const ShowCounter = ({ minutes, seconds }) => {
       </a>
       <br />
       <div>
-        <CharList/>
+        <CharList setChar={setChar}/>
       </div>
     </div>
   );
