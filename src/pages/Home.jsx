@@ -50,7 +50,8 @@ const Home = () => {
       //   username: username,
       // });
       await setDoc(doc(roomRef, username), {
-        username: username
+        username: username,
+        ready: "Not Ready"
       });
       sessionStorage.setItem("room", inputRoom);
       sessionStorage.setItem("username", username);
@@ -87,7 +88,8 @@ const Home = () => {
         alert("not found");
       }
       await setDoc(doc(roomRef, username), {
-        username: username
+        username: username,
+        ready: "Not Ready"
       });
       sessionStorage.setItem("room", inputRoom);
       sessionStorage.setItem("username", username);

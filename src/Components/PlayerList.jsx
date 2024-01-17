@@ -32,7 +32,7 @@ const PlayerList = ({playerList}) => {
   return (
     <div>
       {playerList.map((player, index) => (
-        <p key={index}>{player.username}</p>
+        <p key={index}>{player.username} {player.ready}</p>
       ))}
     </div>
   )

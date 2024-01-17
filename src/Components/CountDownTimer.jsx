@@ -7,6 +7,7 @@ import {
   collection,
   getDocs,
   addDoc,
+  updateDoc,
   deleteDoc,
   setDoc,
   doc,
@@ -34,7 +35,7 @@ const ShowCounter = ({ minutes, seconds }) => {
 
 
   const setChar = async (charName) => {
-    await setDoc(doc(db, "rooms", inputRoom,inputRoom,userName), { selectedChar : charName });
+    await updateDoc(doc(db, "rooms", inputRoom,inputRoom,userName), { selectedChar : charName });
   }
 
   return (
