@@ -11,12 +11,9 @@ const CharList = ({setChar}) => {
         setChardata(Data[cat].charData);
     }
 
-    const [name, setName] = useState("");
     const selectChar = (charName) => {
-      setName(charName);
-      setChar(name);
+      setChar(charName);
       console.log(charName)
-      console.log(name)
     };
 
 
