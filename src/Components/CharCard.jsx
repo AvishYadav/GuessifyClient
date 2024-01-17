@@ -5,6 +5,10 @@ const CharCard = (props) => {
     return (
         <div
             className="charCard"
+            onClick={() => {
+                props.selectChar(props.title);
+                window.scrollTo(0, 0);
+            }}
         >
             <div className="icharImg">
                 <img
