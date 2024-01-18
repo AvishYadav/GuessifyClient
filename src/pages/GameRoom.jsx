@@ -4,12 +4,14 @@ import { socket } from '../socket';
 import MessageBox from "../Components/MessageBox";
 import { db } from "../firebase-config";
 import PlayerList from "../Components/PlayerList";
+import  CharList  from "../Components/CharList";
 import  CountdownTimer  from "../Components/CountDownTimer";
 import {
   collection,
   getDocs,
   addDoc,
   deleteDoc,
+  updateDoc,
   setDoc,
   doc,
   and,
@@ -30,6 +32,10 @@ const GameRoom = () => {
   const [msgs, setMsgs] = useState([]);
   const [userName, setUserName] = useState(sessionStorage.getItem("username"));
   const [playerList, setPlayerList] = useState([]);
+
+  const setChar = async (charName) => {
+    await updateDoc(doc(db, "rooms", inputRoom,inputRoom,userName), { selectedChar : charName });
+  }
 
   function addMessage(message) {
     setMsgs((t) => [...t, message]);
@@ -122,21 +128,7 @@ const GameRoom = () => {
             flex: "20%",
           }}
         >
-          <MessageBox msgs={msgs} />
-          <input
-            type="text"
-            placeholder="say something"
-            id="message-input"
-            onChange={(e) => setInputMsg(e.target.value)}
-          ></input>
-          <button
-            style={{ width: "70px", height: "30px" }}
-            type="button"
-            id="message-button"
-            onClick={() => sendMsg(inputMsg, inputRoom)}
-          >
-            Send
-          </button>
+          <CountdownTimer targetDate={dateTimeAfterTwoMins} />
         </div>
         <div
           className="char-box"
@@ -148,7 +140,7 @@ const GameRoom = () => {
             flex: "20%",
           }}
         >
-          <CountdownTimer targetDate={dateTimeAfterTwoMins} />
+        <CharList setChar={setChar}/>
         </div>
       </div>
     </>
