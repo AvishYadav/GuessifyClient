@@ -24,17 +24,23 @@ import {
 const GameRoom = () => {
   const [inputMsg, setInputMsg] = useState("");
   const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
-  const TWO_MIN_IN_MS = 2 * 60 * 1000;
+  const TWO_MIN_IN_MS = 20 * 60 * 1000;
   const NOW_IN_MS = new Date().getTime();
 
   const dateTimeAfterTwoMins = NOW_IN_MS + TWO_MIN_IN_MS;
   
   const [msgs, setMsgs] = useState([]);
   const [userName, setUserName] = useState(sessionStorage.getItem("username"));
+  const [selectedChar, setSelectedChar] = useState();
   const [playerList, setPlayerList] = useState([]);
+  const [roundNum,setRoundNum] = useState(1);
+  const [selector,setSelector] = useState();
 
   const setChar = async (charName) => {
     await updateDoc(doc(db, "rooms", inputRoom,inputRoom,userName), { selectedChar : charName });
+    sessionStorage.setItem("selectedChar", charName);
+    setSelectedChar(sessionStorage.getItem("selectedChar"));
+    socket.emit("selected-char",selectedChar,inputRoom);
   }
 
   function addMessage(message) {
@@ -61,7 +67,10 @@ const GameRoom = () => {
       const q = query(roomRef);
       const qdocs = await getDocs(q);
       const plist = qdocs.docs.map(doc => doc.data());
+      console.log(plist)
+      console.log("playerlist")
       setPlayerList(plist);
+      setSelector(plist[0].username);
     }
     socket.connect();
     if(inputRoom!==""){
@@ -75,6 +84,9 @@ const GameRoom = () => {
 
       socket.on("recieve-message", (message) => {
         addMessage(message);
+      });
+      socket.on("selected-char", (selectedChar) => {
+        setSelectedChar(selectedChar);
       });
       socket.on("player-joined", (message) => {
         getPlayerList()
@@ -128,7 +140,8 @@ const GameRoom = () => {
             flex: "20%",
           }}
         >
-          <CountdownTimer targetDate={dateTimeAfterTwoMins} />
+          {selectedChar?<div><CountdownTimer targetDate={dateTimeAfterTwoMins} /></div>:<div>Wait till selectioin of the character</div>}
+          
         </div>
         <div
           className="char-box"
@@ -139,8 +152,7 @@ const GameRoom = () => {
             margin: "1rem",
             flex: "20%",
           }}
-        >
-        <CharList setChar={setChar}/>
+        >{selector==userName && !selectedChar ?<div><CharList setChar={setChar}/></div>:selectedChar?<div>Character is selected</div>:<div>Wait till selectioin of the character</div>}
         </div>
       </div>
     </>
