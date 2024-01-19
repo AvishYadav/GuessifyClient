@@ -1,8 +1,10 @@
 import React from 'react';
 import {useState} from 'react'
+import { io } from "socket.io-client";
+import { socket } from '../socket';
 import DateTimeDisplay from './DateTimeDisplay';
 import { useCountdown } from '../hooks/useCountDown';
-import  CharList  from "../Components/CharList";
+import MessageBox from "../Components/MessageBox";
 import {
   collection,
   getDocs,
@@ -30,13 +32,22 @@ const ExpiredNotice = () => {
 
 const ShowCounter = ({ minutes, seconds }) => {
 
-  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
-  const [userName, setUserName] = useState(sessionStorage.getItem("username"));
+  const [msgs, setMsgs] = useState([]);
 
-
-  const setChar = async (charName) => {
-    await updateDoc(doc(db, "rooms", inputRoom,inputRoom,userName), { selectedChar : charName });
+  function addMessage(message) {
+    setMsgs((t) => [...t, message]);
   }
+
+  function sendMsg(message, room) {
+    if (message === "") return;
+    addMessage(message);
+    socket.emit("send-message", message, room);
+    setInputMsg("");
+  }
+
+  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
+  const [inputMsg, setInputMsg] = useState("");
+  const [userName, setUserName] = useState(sessionStorage.getItem("username"));
 
   return (
     <div className="show-counter">
@@ -52,7 +63,21 @@ const ShowCounter = ({ minutes, seconds }) => {
       </a>
       <br />
       <div>
-        <CharList setChar={setChar}/>
+        <MessageBox msgs={msgs} />
+        <input
+            type="text"
+            placeholder="say something"
+            id="message-input"
+            onChange={(e) => setInputMsg(e.target.value)}
+          ></input>
+          <button
+            style={{ width: "70px", height: "30px" }}
+            type="button"
+            id="message-button"
+            onClick={() => sendMsg(inputMsg, inputRoom)}
+          >
+            Send
+          </button>
       </div>
     </div>
   );
