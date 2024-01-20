@@ -38,8 +38,7 @@ const GameRoom = () => {
 
   const setChar = async (charName) => {
     await updateDoc(doc(db, "rooms", inputRoom,inputRoom,userName), { selectedChar : charName });
-    sessionStorage.setItem("selectedChar", charName);
-    setSelectedChar(sessionStorage.getItem("selectedChar"));
+    setSelectedChar(charName);
     socket.emit("selected-char",selectedChar,inputRoom);
   }
 
@@ -85,7 +84,7 @@ const GameRoom = () => {
       socket.on("recieve-message", (message) => {
         addMessage(message);
       });
-      socket.on("selected-char", (selectedChar) => {
+      socket.on("char-select", (selectedChar) => {
         setSelectedChar(selectedChar);
       });
       socket.on("player-joined", (message) => {
@@ -140,7 +139,7 @@ const GameRoom = () => {
             flex: "20%",
           }}
         >
-          {selectedChar?<div><CountdownTimer targetDate={dateTimeAfterTwoMins} /></div>:<div>Wait till selectioin of the character</div>}
+          {selectedChar?<div><CountdownTimer targetDate={dateTimeAfterTwoMins} selector={selector} /></div>:<div>Wait till selectioin of the character</div>}
           
         </div>
         <div
