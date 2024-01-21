@@ -14,10 +14,9 @@ import {
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 // import { useRoom, useRoomUpdate } from "../Context";
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from "react-redux";
 // import { addRoomValue, removeRoomValue } from '../Components/RoomValueSlice'
 // import { setRoom } from "../actions";
-
 
 const Home = () => {
   // const [inputMsg, setInputMsg] = useState("");
@@ -27,19 +26,18 @@ const Home = () => {
   const navigate = useNavigate();
   // const inputRoom = useRoom();
   // const roomUpdate = useRoomUpdate(Room);
-  const roomValue = useSelector((state) => state.changeRoom)
-  const dispatch = useDispatch()
+  const roomValue = useSelector((state) => state.changeRoom);
+  const dispatch = useDispatch();
 
   const createRoom = async (e) => {
     // roomUpdate(Room);
     if (username !== "" && inputRoom !== "") {
       console.log("true");
-      const roomDocRef = await getDoc(query(doc(db, "rooms", inputRoom)))
-      if (roomDocRef.exists()){
+      const roomDocRef = await getDoc(query(doc(db, "rooms", inputRoom)));
+      if (roomDocRef.exists()) {
         alert("exists");
-        return
-      }
-      else{
+        return;
+      } else {
         alert("not found");
       }
       await setDoc(doc(db, "rooms", inputRoom), { id: inputRoom });
@@ -51,7 +49,7 @@ const Home = () => {
       // });
       await setDoc(doc(roomRef, username), {
         username: username,
-        ready: "Not Ready"
+        ready: "Not Ready",
       });
       sessionStorage.setItem("room", inputRoom);
       sessionStorage.setItem("username", username);
@@ -69,27 +67,33 @@ const Home = () => {
     const roomData = roomDoc.data();
     const roomid = roomData.id;
 
-    if (username !== "" && inputRoom !== "" && roomid !== undefined && roomid !== null) {
+    if (
+      username !== "" &&
+      inputRoom !== "" &&
+      roomid !== undefined &&
+      roomid !== null
+    ) {
       // dispatch(addRoomValue(inputRoom))
       dispatch({
         type: "SETROOM",
-        payLoad: inputRoom
-      })
-      console.log("redux"+roomValue);
+        payLoad: inputRoom,
+      });
+      console.log("redux" + roomValue);
       // console.log(roomid);
       const roomRef = collection(db, "rooms", inputRoom, inputRoom);
 
-      const roomDocRef = await getDoc(query(doc(db, "rooms", inputRoom, inputRoom, username)))
-      if (roomDocRef.exists()){
+      const roomDocRef = await getDoc(
+        query(doc(db, "rooms", inputRoom, inputRoom, username))
+      );
+      if (roomDocRef.exists()) {
         alert("exists");
-        return
-      }
-      else{
+        return;
+      } else {
         alert("not found");
       }
       await setDoc(doc(roomRef, username), {
         username: username,
-        ready: "Not Ready"
+        ready: "Not Ready",
       });
       sessionStorage.setItem("room", inputRoom);
       sessionStorage.setItem("username", username);
@@ -97,7 +101,7 @@ const Home = () => {
     } else {
       alert("Enter valid entries");
     }
-    
+
     setInputRoom("");
   };
 
