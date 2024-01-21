@@ -5,6 +5,7 @@ import { socket } from '../socket';
 import DateTimeDisplay from './DateTimeDisplay';
 import { useCountdown } from '../hooks/useCountDown';
 import MessageBox from "../Components/MessageBox";
+import  CharList  from "../Components/CharList";
 import {
   collection,
   getDocs,
@@ -30,10 +31,19 @@ const ExpiredNotice = () => {
   );
 };
 
-const ShowCounter = ({ minutes, seconds }) => {
+const ShowCounter = ({ minutes, seconds,selector }) => {
 
   const [msgs, setMsgs] = useState([]);
+  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
+  const [inputMsg, setInputMsg] = useState("");
+  const [userName, setUserName] = useState(sessionStorage.getItem("username"));
+  const [guessedChar, setGuessedChar] = useState();
 
+  const setGuess = async (charName) => {
+    await updateDoc(doc(db, "rooms", inputRoom,inputRoom,userName), { guessChar : charName });
+    setGuessedChar(charName);
+    socket.emit("selected-char",charName,inputRoom);
+  }
   function addMessage(message) {
     setMsgs((t) => [...t, message]);
   }
@@ -45,9 +55,7 @@ const ShowCounter = ({ minutes, seconds }) => {
     setInputMsg("");
   }
 
-  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
-  const [inputMsg, setInputMsg] = useState("");
-  const [userName, setUserName] = useState(sessionStorage.getItem("username"));
+  
 
   return (
     <div className="show-counter">
@@ -78,12 +86,13 @@ const ShowCounter = ({ minutes, seconds }) => {
           >
             Send
           </button>
+          {!selector?<div><CharList setChar={setGuess}/></div>:<div>you are selector</div>}
       </div>
     </div>
   );
 };
 
-const CountdownTimer = ({ targetDate }) => {
+const CountdownTimer = ({ targetDate,selector }) => {
   const [minutes, seconds] = useCountdown(targetDate);
 
   if (minutes + seconds <= 0) {
@@ -93,6 +102,7 @@ const CountdownTimer = ({ targetDate }) => {
       <ShowCounter
         minutes={minutes}
         seconds={seconds}
+        selector={selector}
       />
     );
   }
