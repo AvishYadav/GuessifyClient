@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {useRef} from 'react';
 import { io } from "socket.io-client";
 import { socket } from "../socket";
 import MessageBox from "../Components/MessageBox";
@@ -23,6 +24,7 @@ import {
 
 const GameRoom = () => {
   const [currentSocket, setCurrentSocket] = useState(socket);
+  const inputRef = useRef(null);
   const [inputMsg, setInputMsg] = useState("");
   const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
   const TWO_MIN_IN_MS = 20 * 60 * 1000;
@@ -148,16 +150,16 @@ const GameRoom = () => {
         >
           <MessageBox msgs={msgs} />
           <input
+            ref={inputRef}
             type="text"
             placeholder="say something"
             id="message-input"
-            onChange={(e) => setInputMsg(e.target.value)}
           ></input>
           <button
             style={{ width: "70px", height: "30px" }}
             type="button"
             id="message-button"
-            onClick={() => sendMsg(inputMsg, inputRoom)}
+            onClick={() => sendMsg(inputRef.current.value, inputRoom)}
           >
             Send
           </button>
@@ -172,22 +174,23 @@ const GameRoom = () => {
             flex: "20%",
           }}
         >
-          {selectedChar ? (
-            <div>
-              <CountdownTimer
-                targetDate={dateTimeAfterTwoMins}
-                selector={selector}
-              />
-            </div>
-          ) : (
-            <div>Wait till selectioin of the character</div>
-          )}
           {selector == userName && !selectedChar ? (
             <div>
               <CharList setChar={setChar} />
             </div>
           ) : selectedChar ? (
             <div>Character is selected</div>
+          ) : (
+            <div>Wait till selectioin of the character</div>
+          )}
+
+    {selectedChar ? (
+            <div>
+              <CountdownTimer
+                targetDate={dateTimeAfterTwoMins}
+                selector={selector}
+              />
+            </div>
           ) : (
             <div>Wait till selectioin of the character</div>
           )}
