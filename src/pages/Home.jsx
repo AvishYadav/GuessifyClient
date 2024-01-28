@@ -50,6 +50,7 @@ const Home = () => {
       await setDoc(doc(roomRef, username), {
         username: username,
         ready: "Not Ready",
+        score: 0,
       });
       sessionStorage.setItem("room", inputRoom);
       sessionStorage.setItem("username", username);
@@ -94,6 +95,7 @@ const Home = () => {
       await setDoc(doc(roomRef, username), {
         username: username,
         ready: "Not Ready",
+        score: 0,
       });
       sessionStorage.setItem("room", inputRoom);
       sessionStorage.setItem("username", username);

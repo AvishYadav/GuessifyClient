@@ -17,10 +17,28 @@ import {
   and,
   query,
   where,
+  FieldValue,
+  increment,
 } from "firebase/firestore";
 import { db } from "../firebase-config";
 
-const ExpiredNotice = () => {
+const ExpiredNotice = (selectedChar) => {
+  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
+  const [userName, setUserName] = useState(sessionStorage.getItem("username"));
+  const [flag, setFlag] = useState(false);
+
+  const setScore = async () => {
+    await updateDoc(doc(db, "rooms", inputRoom, inputRoom, userName), {
+      score: increment(50),
+    });
+  };
+  console.log(sessionStorage.getItem("guessed"));
+  console.log(flag);
+  if (selectedChar.selectedChar === sessionStorage.getItem("guessed") && !flag) {
+    setScore();
+    console.log("score updated successfully");
+    setFlag(true);
+  }
   return (
     <div className="expired-notice">
       <span>Expired!!!</span>
@@ -32,6 +50,7 @@ const ExpiredNotice = () => {
 const ShowCounter = ({ minutes, seconds, selector }) => {
   const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
   const [userName, setUserName] = useState(sessionStorage.getItem("username"));
+
   const [guessedChar, setGuessedChar] = useState();
 
   const setGuess = async (charName) => {
@@ -39,6 +58,7 @@ const ShowCounter = ({ minutes, seconds, selector }) => {
       guessChar: charName,
     });
     setGuessedChar(charName);
+    sessionStorage.setItem("guessed", charName);
     // socket.emit("selected-char",charName,inputRoom);
   };
 
@@ -76,14 +96,21 @@ const ShowCounter = ({ minutes, seconds, selector }) => {
   );
 };
 
-const CountdownTimer = ({ targetDate, selector }) => {
+const CountdownTimer = ({ targetDate, selector, selectedChar }) => {
   const [minutes, seconds] = useCountdown(targetDate);
 
-  if (minutes + seconds <= 0) {
-    return <ExpiredNotice />;
-  } else {
+  if (minutes + seconds > 0) {
     return (
       <ShowCounter minutes={minutes} seconds={seconds} selector={selector} />
+    );
+    
+  } 
+  else if (minutes + seconds == 0) {
+    return <ExpiredNotice selectedChar={selectedChar} />;
+  }
+  else {
+    return (
+      <>scorecard</>
     );
   }
 };

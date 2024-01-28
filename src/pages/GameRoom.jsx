@@ -25,7 +25,7 @@ const GameRoom = () => {
   const [currentSocket, setCurrentSocket] = useState(socket);
   const [inputMsg, setInputMsg] = useState("");
   const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
-  const TWO_MIN_IN_MS = 20 * 60 * 1000;
+  const TWO_MIN_IN_MS = 1 * 20 * 1000;
   const NOW_IN_MS = new Date().getTime();
 
   const dateTimeAfterTwoMins = NOW_IN_MS + TWO_MIN_IN_MS;
@@ -177,6 +177,7 @@ const GameRoom = () => {
               <CountdownTimer
                 targetDate={dateTimeAfterTwoMins}
                 selector={selector}
+                selectedChar={selectedChar}
               />
             </div>
           ) : (
