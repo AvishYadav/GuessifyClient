@@ -28,18 +28,22 @@ const ExpiredNotice = (selectedChar) => {
   const [userName, setUserName] = useState(sessionStorage.getItem("username"));
   const [flag, setFlag] = useState(false);
 
-  const setScore = async () => {
-    await updateDoc(doc(db, "rooms", inputRoom, inputRoom, userName), {
-      score: increment(50),
-    });
-  };
+  
   console.log(sessionStorage.getItem("guessed"));
   console.log(flag);
-  if (selectedChar.selectedChar === sessionStorage.getItem("guessed") && !flag) {
-    setScore();
-    console.log("score updated successfully");
-    setFlag(true);
-  }
+  
+  useEffect(()=>{
+    const setScore = async () => {
+      await updateDoc(doc(db, "rooms", inputRoom, inputRoom, userName), {
+        score: increment(50),
+      });
+    };
+    if (selectedChar.selectedChar === sessionStorage.getItem("guessed") && !flag) {
+      setScore();
+      console.log("score updated successfully");
+      setFlag(true);
+    }
+  }, []);
   return (
     <div className="expired-notice">
       <span>Expired!!!</span>

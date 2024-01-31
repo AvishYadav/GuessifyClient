@@ -99,14 +99,11 @@ const GameRoom = () => {
     window.addEventListener("beforeunload", delPlayer);
     window.addEventListener("hashchange", delPlayer);
     window.addEventListener("popstate", delPlayer);
-    // window.addEventListener('unload', handleEndConcert)
     return () => {
       // remove event listner
       window.removeEventListener("beforeunload", delPlayer);
       window.removeEventListener("hashchange", delPlayer);
       window.removeEventListener("popstate", delPlayer);
-      // window.removeEventListener('unload', handleEndConcert)
-      // handleEndConcert()
       console.log("Component is unmounting");
 
       socket.off("connect");
