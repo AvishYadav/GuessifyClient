@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { io } from "socket.io-client";
 import { socket } from "../socket";
@@ -6,6 +6,7 @@ import DateTimeDisplay from "./DateTimeDisplay";
 import { useCountdown } from "../hooks/useCountDown";
 import MessageBox from "../Components/MessageBox";
 import CharList from "../Components/CharList";
+import ScoreCard from "../Components/ScoreCard";
 import {
   collection,
   getDocs,
@@ -96,6 +97,29 @@ const ShowCounter = ({ minutes, seconds, selector }) => {
   );
 };
 
+const ScoreList = () =>{
+
+  const [playerList, setPlayerList] = useState([]);
+  const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
+
+  useEffect(()=>{
+    const getPlayerList = async (e) => {
+      const roomRef = collection(db, "rooms", inputRoom, inputRoom);
+      const q = query(roomRef);
+      const qdocs = await getDocs(q);
+      const plist = qdocs.docs.map((doc) => doc.data());
+      console.log(plist)
+      setPlayerList(plist);
+    };
+    getPlayerList().catch(console.error);
+
+  },[])
+
+  return(<><div>ScoreCard<ScoreCard playerList={playerList}/></div></>);
+  
+
+}
+
 const CountdownTimer = ({ targetDate, selector, selectedChar }) => {
   const [minutes, seconds] = useCountdown(targetDate);
 
@@ -109,9 +133,7 @@ const CountdownTimer = ({ targetDate, selector, selectedChar }) => {
     return <ExpiredNotice selectedChar={selectedChar} />;
   }
   else {
-    return (
-      <>scorecard</>
-    );
+    return <ScoreList/>;
   }
 };
 
