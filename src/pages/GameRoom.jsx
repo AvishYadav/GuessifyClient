@@ -36,6 +36,7 @@ const GameRoom = () => {
   const [playerList, setPlayerList] = useState([]);
   const [roundNum, setRoundNum] = useState(1);
   const [selector, setSelector] = useState();
+  
 
   const setChar = async (charName) => {
     await updateDoc(doc(db, "rooms", inputRoom, inputRoom, userName), {
@@ -44,6 +45,10 @@ const GameRoom = () => {
     setSelectedChar(charName);
     currentSocket.emit("selected-char", charName, inputRoom);
     console.log("setSelectedChar");
+  };
+
+  const handleResetSelectedChar = () => {
+    setSelectedChar(); 
   };
 
   function addMessage(message) {
@@ -175,6 +180,7 @@ const GameRoom = () => {
                 targetDate={dateTimeAfterTwoMins}
                 selector={selector}
                 selectedChar={selectedChar}
+                resetSelectedChar={handleResetSelectedChar}
               />
             </div>
           ) : (
