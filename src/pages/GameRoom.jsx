@@ -49,6 +49,9 @@ const GameRoom = () => {
 
   const handleResetSelectedChar = () => {
     setSelectedChar(); 
+    setSelector(playerList[roundNum].userName);
+    setRoundNum(roundNum+1);
+    console.log(`${selector} + new selector `);
   };
 
   function addMessage(message) {
