@@ -36,7 +36,7 @@ const GameRoom = () => {
   const [playerList, setPlayerList] = useState([]);
   const [roundNum, setRoundNum] = useState(1);
   const [selector, setSelector] = useState();
-  
+  const [playerNum,setPlayerNum] = useState();
 
   const setChar = async (charName) => {
     await updateDoc(doc(db, "rooms", inputRoom, inputRoom, userName), {
@@ -49,8 +49,20 @@ const GameRoom = () => {
 
   const handleResetSelectedChar = () => {
     setSelectedChar(); 
-    setSelector(playerList[roundNum].userName);
-    setRoundNum(roundNum+1);
+    if(playerNum>roundNum){
+      setSelector(playerList[roundNum].userName);
+      setRoundNum(roundNum+1);
+    }
+    else{
+      if(playerNum==roundNum){
+        setSelector();
+        setRoundNum(1);
+      }
+      else{
+        console.log("Rotation error");
+      }
+    }
+    
     console.log(`${selector} + new selector `);
   };
 
@@ -78,10 +90,13 @@ const GameRoom = () => {
       const q = query(roomRef);
       const qdocs = await getDocs(q);
       const plist = qdocs.docs.map((doc) => doc.data());
+      const pnumber = qdocs.size;
+      console.log(pnumber);
       console.log(plist);
       console.log("playerlist");
       setPlayerList(plist);
       setSelector(plist[0].username);
+      setPlayerNum(playerNum);
     };
     socket.connect();
     setCurrentSocket(socket);
