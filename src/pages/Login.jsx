@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from "react";
-import classes from "./LoginForm.scss";
+import classes from "./Login.scss";
 import { db } from "../firebase-config";
 import {
   collection,
