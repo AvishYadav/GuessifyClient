@@ -36,7 +36,8 @@ const GameRoom = () => {
   const [playerList, setPlayerList] = useState([]);
   const [roundNum, setRoundNum] = useState(1);
   const [selector, setSelector] = useState();
-  const [playerNum,setPlayerNum] = useState();
+  const [playerNum, setPlayerNum] = useState();
+  const [start, setStart] = useState(false);
 
   const setChar = async (charName) => {
     await updateDoc(doc(db, "rooms", inputRoom, inputRoom, userName), {
@@ -48,21 +49,20 @@ const GameRoom = () => {
   };
 
   const handleResetSelectedChar = () => {
-    setSelectedChar(); 
-    if(playerNum>roundNum){
-      setSelector(playerList[roundNum].userName);
-      setRoundNum(roundNum+1);
-    }
-    else{
-      if(playerNum==roundNum){
-        setSelector();
+    setSelectedChar();
+    if (playerNum > roundNum) {
+      setSelector(playerList[roundNum].username);
+      setRoundNum(roundNum + 1);
+    } else {
+      if (playerNum == roundNum) {
+        setSelector(playerList[0].username);
         setRoundNum(1);
-      }
-      else{
+        setStart(!start);
+      } else {
         console.log("Rotation error");
       }
     }
-    
+
     console.log(`${selector} + new selector `);
   };
 
@@ -74,7 +74,6 @@ const GameRoom = () => {
     if (message === "") return;
     addMessage(message);
     currentSocket.emit("send-message", message, room);
-
     setInputMsg("");
   }
 
@@ -82,6 +81,11 @@ const GameRoom = () => {
     socket.emit("join-room", room, () => {
       addMessage(`You connected to room: ${room}`);
     });
+  }
+
+  function toggleStart(room) {
+    setStart(!start);
+    currentSocket.emit("toggle-start", room);
   }
 
   useEffect(() => {
@@ -95,8 +99,10 @@ const GameRoom = () => {
       console.log(plist);
       console.log("playerlist");
       setPlayerList(plist);
-      setSelector(plist[0].username);
-      setPlayerNum(playerNum);
+      if (!selector) {
+        setSelector(plist[0].username);
+      }
+      setPlayerNum(pnumber);
     };
     socket.connect();
     setCurrentSocket(socket);
@@ -117,6 +123,9 @@ const GameRoom = () => {
       });
       socket.on("player-joined", (message) => {
         getPlayerList().catch(console.error);
+      });
+      socket.on("start-true", () => {
+        setStart(true);
       });
     });
     window.addEventListener("beforeunload", delPlayer);
@@ -204,7 +213,7 @@ const GameRoom = () => {
           ) : (
             <div>Wait till selectioin of the character</div>
           )}
-          {selector == userName && !selectedChar ? (
+          {selector == userName && !selectedChar && start ? (
             <div>
               <CharList setChar={setChar} />
             </div>
@@ -212,6 +221,18 @@ const GameRoom = () => {
             <div>Character is selected</div>
           ) : (
             <div>Wait till selectioin of the character</div>
+          )}
+          {selector == userName && !start ? (
+            <div>
+              <button
+                style={{ width: "70px", height: "30px" }}
+                onClick={() => toggleStart(inputRoom)}
+              >
+                Start
+              </button>
+            </div>
+          ) : (
+            <>waiting for leader to start</>
           )}
         </div>
       </div>
