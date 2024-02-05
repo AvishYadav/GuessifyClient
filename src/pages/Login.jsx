@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from "react";
+import classes from "./LoginForm.scss";
 import { db } from "../firebase-config";
 import {
   collection,
@@ -60,11 +61,11 @@ const Login = () => {
 
   return (
     <div>
-        <div className="form">  
-          <form onSubmit={userLogin}>
-            <input type="email" placeholder='Enter email' onChange={(event) => {setEmail(event.target.value);}}/>
-            <input type="password" placeholder='Enter password' onChange={(event) => {setPassword(event.target.value);}}/>
-            <button>Submit</button>
+        <div className={classes.formDiv}>  
+          <form onSubmit={userLogin} className={classes.form}>
+            <input type="email" placeholder='Enter email' onChange={(event) => {setEmail(event.target.value);}} className={classes.input}/>
+            <input type="password" placeholder='Enter password' onChange={(event) => {setPassword(event.target.value);}} className={classes.input}/>
+            <button className={classes.loginBtn}>Submit</button>
           </form>
         </div>
     </div>
