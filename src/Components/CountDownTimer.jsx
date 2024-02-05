@@ -101,10 +101,14 @@ const ShowCounter = ({ minutes, seconds, selector }) => {
   );
 };
 
-const ScoreList = () =>{
+const ScoreList = ({resetSelectedChar}) =>{
 
   const [playerList, setPlayerList] = useState([]);
   const [inputRoom, setInputRoom] = useState(sessionStorage.getItem("room"));
+
+  const handleClick = () =>{
+    resetSelectedChar();
+  }
 
   useEffect(()=>{
     const getPlayerList = async (e) => {
@@ -119,12 +123,17 @@ const ScoreList = () =>{
 
   },[])
 
-  return(<><div>ScoreCard<ScoreCard playerList={playerList}/></div></>);
+  return(<>
+  <div>
+  ScoreCard
+  <ScoreCard playerList={playerList}/>
+  <button onClick={() => handleClick()}>Reset</button>
+  </div></>);
   
 
 }
 
-const CountdownTimer = ({ targetDate, selector, selectedChar }) => {
+const CountdownTimer = ({ targetDate, selector, selectedChar,resetSelectedChar }) => {
   const [minutes, seconds] = useCountdown(targetDate);
 
   if (minutes + seconds > 0) {
@@ -137,7 +146,7 @@ const CountdownTimer = ({ targetDate, selector, selectedChar }) => {
     return <ExpiredNotice selectedChar={selectedChar} />;
   }
   else {
-    return <ScoreList/>;
+    return <ScoreList resetSelectedChar={resetSelectedChar}/>;
   }
 };
 

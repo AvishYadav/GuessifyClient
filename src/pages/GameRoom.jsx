@@ -36,6 +36,7 @@ const GameRoom = () => {
   const [playerList, setPlayerList] = useState([]);
   const [roundNum, setRoundNum] = useState(1);
   const [selector, setSelector] = useState();
+  const [playerNum,setPlayerNum] = useState();
 
   const setChar = async (charName) => {
     await updateDoc(doc(db, "rooms", inputRoom, inputRoom, userName), {
@@ -44,6 +45,25 @@ const GameRoom = () => {
     setSelectedChar(charName);
     currentSocket.emit("selected-char", charName, inputRoom);
     console.log("setSelectedChar");
+  };
+
+  const handleResetSelectedChar = () => {
+    setSelectedChar(); 
+    if(playerNum>roundNum){
+      setSelector(playerList[roundNum].userName);
+      setRoundNum(roundNum+1);
+    }
+    else{
+      if(playerNum==roundNum){
+        setSelector();
+        setRoundNum(1);
+      }
+      else{
+        console.log("Rotation error");
+      }
+    }
+    
+    console.log(`${selector} + new selector `);
   };
 
   function addMessage(message) {
@@ -70,10 +90,13 @@ const GameRoom = () => {
       const q = query(roomRef);
       const qdocs = await getDocs(q);
       const plist = qdocs.docs.map((doc) => doc.data());
+      const pnumber = qdocs.size;
+      console.log(pnumber);
       console.log(plist);
       console.log("playerlist");
       setPlayerList(plist);
       setSelector(plist[0].username);
+      setPlayerNum(playerNum);
     };
     socket.connect();
     setCurrentSocket(socket);
@@ -175,6 +198,7 @@ const GameRoom = () => {
                 targetDate={dateTimeAfterTwoMins}
                 selector={selector}
                 selectedChar={selectedChar}
+                resetSelectedChar={handleResetSelectedChar}
               />
             </div>
           ) : (
