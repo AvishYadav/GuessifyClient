@@ -38,6 +38,7 @@ const GameRoom = () => {
   const [selector, setSelector] = useState();
   const [playerNum, setPlayerNum] = useState();
   const [start, setStart] = useState(false);
+  const [resetCount,setResetCount]=useState(0);
 
   const setChar = async (charName) => {
     await updateDoc(doc(db, "rooms", inputRoom, inputRoom, userName), {
@@ -50,6 +51,7 @@ const GameRoom = () => {
 
   const handleResetSelectedChar = () => {
     setSelectedChar();
+    setResetCount(resetCount+1);
     if (playerNum > roundNum) {
       setSelector(playerList[roundNum].username);
       setRoundNum(roundNum + 1);
@@ -213,7 +215,7 @@ const GameRoom = () => {
           ) : (
             <div>Wait till selectioin of the character</div>
           )}
-          {selector == userName && !selectedChar && start ? (
+          {selector == userName && !selectedChar && (start || resetCount==playerNum) ? (
             <div>
               <CharList setChar={setChar} />
             </div>
