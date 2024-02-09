@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
-import "./App.css";
+import "./App.scss";
 import { io } from "socket.io-client";
 import Test from "./pages/Test";
 import {Routes, Route} from 'react-router-dom'
