@@ -125,20 +125,19 @@ const Home = () => {
         className="input"
       ></input>
       <button
-        style={{ width: "70px", height: "30px" }}
         type="button"
         id="room-button"
         onClick={() => joinRoom(inputRoom, username)}
-        className="loginBtn"
+        className="JoinBtn"
       >
         Join
       </button>
+      <p>OR</p>
       <button
-        style={{ width: "70px", height: "30px" }}
         type="button"
         id="room-button"
         onClick={() => createRoom()}
-        className="loginBtn"
+        className="CreateBtn"
       >
         Create
       </button>

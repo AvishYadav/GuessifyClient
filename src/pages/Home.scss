@@ -22,7 +22,7 @@ input {
   border: 1px solid #fff;
   margin-top: $main-margin * 2;
 }
-.loginBtn {
+.JoinBtn {
   @extend .mainInputStyle;
   border: 2px solid $submit-color;
   margin-top: $main-margin * 5;
@@ -36,6 +36,21 @@ input {
     filter: invert(100%);
   }
 }
+
+.CreateBtn {
+  @extend .mainInputStyle;
+  border: 2px solid $submit-color;
+  font-size: medium;
+  color: $submit-color;
+  cursor: pointer;
+  &:active {
+    opacity: 50%;
+  }
+  &:hover {
+    filter: invert(100%);
+  }
+}
+
 .icon {
   position: absolute;
   margin-top: $main-margin * 3;
