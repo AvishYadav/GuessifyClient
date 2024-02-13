@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase-config";
+import "./Home.scss";
 import {
   collection,
   getDoc,
@@ -108,24 +109,27 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="form">
       <h1>Home</h1>
       <input
         type="text"
         placeholder="Enter username"
         onChange={(e) => setUsername(e.target.value)}
+        className="input"
       ></input>
       <input
         type="text"
         placeholder="Room ID..."
         id="room-input"
         onChange={(e) => setInputRoom(e.target.value)}
+        className="input"
       ></input>
       <button
         style={{ width: "70px", height: "30px" }}
         type="button"
         id="room-button"
         onClick={() => joinRoom(inputRoom, username)}
+        className="loginBtn"
       >
         Join
       </button>
@@ -134,6 +138,7 @@ const Home = () => {
         type="button"
         id="room-button"
         onClick={() => createRoom()}
+        className="loginBtn"
       >
         Create
       </button>
