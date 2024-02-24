@@ -4,18 +4,12 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-family:'Shantell Sans';
+  background-image: url(../public/assets/CharImg/wallpaper.jpg);
+
 }
 
 * {
   font-weight: 700;
   color: #fff;
-}
-
-body {
-  margin: 0; 
-  font-family:'Shantell Sans';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  background-image: url(../public/assets/CharImg/wallpaper.jpg);
 }

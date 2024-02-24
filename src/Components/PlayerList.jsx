@@ -1,4 +1,6 @@
 import React, { useEffect, useState, memo } from "react";
+import "./PlayerList.scss";
+
 // import { db } from "../firebase-config";
 // import {
 //   collection,
@@ -30,10 +32,13 @@ const PlayerList = ({playerList}) => {
   // }, []);
   console.log(playerList);
   return (
-    <div>
+    <div className="list">
+      <ul>
       {playerList.map((player, index) => (
-        <p key={index}>{player.username} {player.ready}</p>
+        <li key={index} className="playerName">{player.username} {player.ready}</li>
       ))}
+
+      </ul>
     </div>
   )
 }
