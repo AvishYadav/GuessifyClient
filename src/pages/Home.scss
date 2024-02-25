@@ -2,18 +2,29 @@
 @import "../variables";
 @import "../extensions";
 
-.form {
-  display: -ms-grid;
-  display: grid;
+.titleText {
+	color: mix(#fff, #e91e63, 85%);
+  font-size: calc(1em + 2vw);
+	font-weight: 900;
+	text-shadow: 
+		-0.0075em 0.0075em 0 mix(#fff, #e91e63, 94%),
+		0.005em 0.005em 0 mix(#fff, #e91e63, 60%),
+		0.01em 0.01em 0 mix(#fff, #e91e63, 62%), 
+		0.015em 0.015em mix(#fff, #e91e63, 64%), 
+		0.02em 0.02em 0 mix(#fff, #e91e63, 66%), 
+		0.025em 0.025em 0 mix(#fff, #e91e63, 68%),
+		0.03em 0.03em 0 mix(#fff, #e91e63, 70%),
+		0.035em 0.035em 0 mix(#fff, #e91e63, 72%);
+}
+
+.mainForm{
   margin: $main-margin * 4;
-  width: 100%;
   border-radius: 2rem;
   padding: 3rem;
+  background:#FF7518;
   @include media-max-width() {
     width: 95%;
   }
-  
-  background:#FF7518;
 }
 
 input {
