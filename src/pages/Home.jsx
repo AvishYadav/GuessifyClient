@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebase-config";
-import "./Home.scss";
 import {
   collection,
   getDoc,
@@ -109,43 +108,50 @@ const Home = () => {
   };
 
   return (
-    <div className="form">
-      <h1>Home</h1>
-      <input
-        type="text"
-        placeholder="Enter username"
-        onChange={(e) => setUsername(e.target.value)}
-        className="input"
-      ></input>
-      <input
-        type="text"
-        placeholder="Room ID..."
-        id="room-input"
-        onChange={(e) => setInputRoom(e.target.value)}
-        className="input"
-      ></input>
-      <button
-        style={{ width: "70px", height: "30px" }}
-        type="button"
-        id="room-button"
-        onClick={() => joinRoom(inputRoom, username)}
-        className="loginBtn"
-      >
-        Join
-      </button>
-      <button
-        style={{ width: "70px", height: "30px" }}
-        type="button"
-        id="room-button"
-        onClick={() => createRoom()}
-        className="loginBtn"
-      >
-        Create
-      </button>
+    < >
+      <div className="mainForm">
+        <h1 className="titleText">Guessify</h1>
+<input
+  type="text"
+  placeholder="Enter username"
+  onChange={(e) => setUsername(e.target.value)}
+  className="input"
+></input>
+<input
+  type="text"
+  placeholder="Room ID..."
+  id="room-input"
+  onChange={(e) => setInputRoom(e.target.value)}
+  className="input"
+></input>
+<button
+  type="button"
+  id="room-button"
+  onClick={() => joinRoom(inputRoom, username)}
+  className="JoinBtn"
+>
+  Join
+</button>
+<p>OR</p>
+<button
+  type="button"
+  id="room-button"
+  onClick={() => createRoom()}
+  className="CreateBtn"
+>
+  Create
+</button>
 
-      {username}
-    </div>
+{username}
+      </div>
+
+    </>
   );
 };
 
 export default Home;
+
+/*
+
+
+*/

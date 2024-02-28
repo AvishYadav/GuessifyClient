@@ -1,18 +1,59 @@
 @import "./mixins";
 @import "./variables";
+@import "./extensions";
 
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Shantell Sans';
+  background-image: url(../public/assets/CharImg/wallpaper.jpg);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .App {
-  @include display-flex();
-  @include align-items-center();
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
+  width: 100%;
+  display: flex;
   flex-direction: column;
-  margin-top: 25vh;
-  text-align: center;
-  background:#a784ff;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15vh; /* Top margin for smaller devices */
+  margin-bottom: 5vh; /* Top margin for smaller devices */
 }
+
+.AppHeader {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.mainForm {
+  max-width: 30rem; /* Adjust the width as needed */
+  width: 100vw;
+  margin: 0 auto;
+  border-radius: 1rem;
+  padding: 3rem;
+  background: #FF7518;
+  text-align: center;
+  
+  
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    max-width: 65%;
+    padding: 1rem; /* Adjust padding for smaller devices */
+  }
+}
+
 
 .App-logo {
   height: 40vmin;
@@ -25,16 +66,7 @@
   }
 }
 
-.AppHeader {
-  background-color: #181818;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+
 
 .App-link {
   color: #61dafb;
@@ -161,4 +193,61 @@
   left: 0;
   opacity: 0.9;
   transition: opacity .2s ease-out;/* Adjust the border-radius to match the card's border-radius */
+}
+
+
+.titleText {
+	color: mix(#fff, #e91e63, 85%);
+  font-size: calc(1em + 2vw);
+	font-weight: 900;
+	text-shadow: 
+		-0.0075em 0.0075em 0 mix(#fff, #e91e63, 94%),
+		0.005em 0.005em 0 mix(#fff, #e91e63, 60%),
+		0.01em 0.01em 0 mix(#fff, #e91e63, 62%), 
+		0.015em 0.015em mix(#fff, #e91e63, 64%), 
+		0.02em 0.02em 0 mix(#fff, #e91e63, 66%), 
+		0.025em 0.025em 0 mix(#fff, #e91e63, 68%),
+		0.03em 0.03em 0 mix(#fff, #e91e63, 70%),
+		0.035em 0.035em 0 mix(#fff, #e91e63, 72%);
+}
+
+
+
+input {
+  @include input-placeholder();
+  padding-left: 75px;
+}
+
+.input {
+  @extend .mainInputStyle;
+  border: 1px solid #fff;
+  margin-top: $main-margin * 2;
+}
+.JoinBtn {
+  @extend .mainInputStyle;
+  border: 2px solid $submit-color;
+  margin-top: $main-margin * 5;
+  font-size: medium;
+  color: $submit-color;
+  cursor: pointer;
+  &:active {
+    opacity: 50%;
+  }
+  &:hover {
+    filter: invert(100%);
+  }
+}
+
+.CreateBtn {
+  @extend .mainInputStyle;
+  border: 2px solid $submit-color;
+  font-size: medium;
+  color: $submit-color;
+  cursor: pointer;
+  &:active {
+    opacity: 50%;
+  }
+  &:hover {
+    filter: invert(100%);
+  }
 }

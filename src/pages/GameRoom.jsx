@@ -158,11 +158,11 @@ const GameRoom = () => {
         <div
           className="player-list"
           style={{
-            backgroundColor: "#b3b3b3",
+            backgroundColor: "whitesmoke",
+            color:"#FF7F50",
             borderRadius: "30px",
             padding: "1rem",
             margin: "1rem",
-            flex: "20%",
           }}
         >
           <PlayerList playerList={playerList} />
