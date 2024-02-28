@@ -33,7 +33,7 @@ function App() {
   return (
     // <ContextProvider></ContextProvider>
     <div className="App">
-      <header className="App-header">
+      <header className="App-header" style={{ width: "100%", display: "flex" }}>
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="gameroom" element={<GameRoom/>}/>

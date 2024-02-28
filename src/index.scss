@@ -1,16 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Grandstander:ital,wght@0,100..900;1,100..900&family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 
 
-body {
-  margin: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family:'Shantell Sans';
-  background-image: url(../public/assets/CharImg/wallpaper.jpg);
+#root {
   width: 100%;
-  justify-content: center;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-
+  justify-content: center;
+  height: 100%; /* Ensure #root takes the full viewport height */
 }
 
 * {

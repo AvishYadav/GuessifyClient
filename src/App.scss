@@ -3,20 +3,57 @@
 @import "./extensions";
 
 
-
-
-.App {
-  @include display-flex();
-  @include align-items-center();
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  margin-top: 20vh;
-  text-align: center;
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Shantell Sans';
+  background-image: url(../public/assets/CharImg/wallpaper.jpg);
+  width: 100%;
+  display: flex;
   justify-content: center;
   align-items: center;
 }
+
+.App {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15vh; /* Top margin for smaller devices */
+  margin-bottom: 5vh; /* Top margin for smaller devices */
+}
+
+.AppHeader {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.mainForm {
+  max-width: 30rem; /* Adjust the width as needed */
+  width: 100vw;
+  margin: 0 auto;
+  border-radius: 1rem;
+  padding: 3rem;
+  background: #FF7518;
+  text-align: center;
+  
+  
+  /* Responsive styles */
+  @media (max-width: 600px) {
+    max-width: 65%;
+    padding: 1rem; /* Adjust padding for smaller devices */
+  }
+}
+
 
 .App-logo {
   height: 40vmin;
@@ -29,15 +66,7 @@
   }
 }
 
-.AppHeader {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+
 
 .App-link {
   color: #61dafb;
@@ -182,13 +211,7 @@
 		0.035em 0.035em 0 mix(#fff, #e91e63, 72%);
 }
 
-.mainForm{
-  margin: $main-margin * 4;
-  border-radius: 2rem;
-  padding: 3rem;
-  background:#FF7518;
 
-}
 
 input {
   @include input-placeholder();
